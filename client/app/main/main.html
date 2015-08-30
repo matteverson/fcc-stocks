@@ -1,30 +1,23 @@
 <highchart id="chart1" config="chartConfig" class="span10"></highchart>
-
-<div class="container">
-  <div class="row">
-    <div class="col-lg-12">
-      <h1 class="page-header">Features:</h1>
-      <ul class="nav nav-tabs nav-stacked col-md-4 col-lg-4 col-sm-6" ng-repeat="stock in stocks">
-        <li><a href="#">{{stock.symbol}}<button type="button" class="close" ng-click="deleteStock(stock)">&times;</button></a></li>
-      </ul>
-    </div>
+<section id="selectedStocks" ng-show="stocks.length" layout="column" layout-align="center center" class="md-margin">
+  <p>Changes are synced across clients in real time</p>
+  <div layout="row">
+    <md-button class="md-accent md-raised" ng-repeat="stock in stocks" ng-click="deleteStock(stock)">{{ stock.symbol }} <md-icon>close</md-icon></md-button>
   </div>
+</section>
 
-  <form class="thing-form">
-    <label>Syncs in realtime across clients</label>
-    <p class="input-group">
-      <input type="text" class="form-control" placeholder="Add a new stock here." ng-model="newStock">
-      <span class="input-group-btn">
-        <button type="submit" class="btn btn-primary" ng-click="addStock()">Add New</button>
-      </span>
-    </p>
+<section layout="column" layout-align="center center" class="md-padding">
+  <form class="stock-form">
+    <div layout="row">
+    <md-input-container >
+      <label>Stock symbol</label>
+      <input ng-model="newStock">
+    </md-input-container>
+    <md-button type="submit" class="" ng-click="addStock()"><md-icon>trending_up</md-icon>Add New</md-button>
+  </div>
   </form>
-</div>
-
-<footer class="footer">
-  <div class="container">
-      <p>Angular Fullstack v2.1.1 |
-        <a href="https://twitter.com/tyhenkel">@tyhenkel</a> |
-         <a href="https://github.com/DaftMonk/generator-angular-fullstack/issues?state=open">Issues</a></p>
-  </div>
-</footer>
+  <md-progress-linear ng-show="pending" md-mode="indeterminate"></md-progress-linear>
+  <p>FCC Stock Ticker |
+    <a href="https://twitter.com/matteverson">@matteverson</a>
+  </p>
+</section>

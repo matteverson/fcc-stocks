@@ -12,13 +12,11 @@ angular.module('fccStocksApp')
     $scope.$watch('stocks', function(newVal, oldVal) {
       $scope.chartConfig.series = [];
       newVal.forEach(function(stock) {
-        var quotes = stock.history.quote.map(function(quote) {
-          return [new Date(quote.Date).getTime(), parseFloat(quote.Close)];
-        }).sort();
         $scope.chartConfig.series.push({
-          id: stock.symbol,
-          data: quotes
+          name: stock.symbol,
+          data: stock.history
         });
+        $scope.pending = false;
       });
     }, true);
 
@@ -26,7 +24,8 @@ angular.module('fccStocksApp')
       if($scope.newStock === '') {
         return;
       }
-      $http.post('/api/stocks', { symbol: $scope.newStock });
+      $scope.pending = true;
+      $http.post('/api/stocks', { symbol: $scope.newStock.toUpperCase() });
       $scope.newStock = '';
     };
 
@@ -52,7 +51,7 @@ angular.module('fccStocksApp')
       },
       series: [],
       title: {
-        text: 'Hello'
+        text: 'Daily Close'
       },
       useHighStocks: true
     };

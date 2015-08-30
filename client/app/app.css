@@ -32,3 +32,8 @@
         max-width: 730px;
     }
 }
+
+#selectedStocks {
+  background-color: #f7f7f7;
+  border-radius: 3px;
+}

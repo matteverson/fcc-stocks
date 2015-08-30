@@ -6,6 +6,7 @@ angular.module('fccStocksApp', [
   'ngSanitize',
   'btford.socket-io',
   'highcharts-ng',
+  'ngMaterial',
   'ui.router'
 ])
   .config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
