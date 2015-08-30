@@ -27,13 +27,15 @@ exports.show = function(req, res) {
 exports.create = function(req, res) {
   var stock = {symbol: req.body.symbol, lastUpdated: Date.now()};
   var end = moment();
-  var start = moment().subtract(1, 'months');
+  var start = moment().subtract(9, 'months');
 
   YQL.execp("select Symbol,Date,Close from yahoo.finance.historicaldata where symbol = '"+stock.symbol+"' and startDate = '"+start.format()+"' and endDate = '"+end.format()+"';")
   .then(function(response) {
     var results = response.query.results;
-    stock.history = results;
-
+    stock.history = results.quote.map(function(quote) {
+      return [new Date(quote.Date).getTime(), parseFloat(quote.Close)];
+    }).sort();
+    
     Stock.create(stock, function(err, stock) {
       if(err) { return handleError(res, err); }
       return res.status(201).json(stock);
